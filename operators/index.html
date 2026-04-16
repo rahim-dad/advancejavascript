@@ -7,7 +7,103 @@
 </head>
 <body>
 
-    <script src="./script.js"></script>
+    <script src="./script.js">
+
+let a = 10;
+let b = 3;
+
+console.log(a + b); // 13
+console.log(a - b); // 7
+console.log(a * b); // 30
+console.log(a / b); // 3.33
+console.log(a % b); // 1 (remainder)
+console.log(a ** b); // 1000 (power)
+
+
+
+let x = 10;
+
+x += 5;  // x = 15
+x -= 2;  // x = 13
+x *= 2;  // x = 26
+x /= 2;  // x = 13
+x %= 5;  // x = 3
+
+console.log(x);
+
+
+console.log(10 == "10");   // true
+console.log(10 === "10");  // false
+console.log(10 != 5);      // true
+console.log(10 > 5);       // true
+console.log(10 < 5);       // false
+console.log(10 >= 10);     // true
+console.log(10 <= 9);      // false
+
+
+console.log(true && false); // false (AND)
+console.log(true || false); // true  (OR)
+console.log(!true);         // false (NOT)
+
+
+let n = 5;
+
+console.log(n++); // 5 (post-increment)
+console.log(n);   // 6
+
+console.log(++n); // 7 (pre-increment)
+
+console.log(n--); // 7
+console.log(n);   // 6
+
+
+let age = 18;
+
+let result = (age >= 18) ? "Adult" : "Minor";
+console.log(result);
+
+
+console.log(typeof "Hello"); // string
+console.log(typeof 10);      // number
+
+let arr = [1, 2, 3];
+console.log(arr instanceof Array); // true
+
+
+
+console.log(5 & 1); // AND
+console.log(5 | 1); // OR
+console.log(5 ^ 1); // XOR
+console.log(~5);    // NOT
+console.log(5 << 1); // Left shift
+console.log(5 >> 1); // Right shift
+
+
+
+let first = "Hello";
+let last = "World";
+
+console.log(first + " " + last); // Hello World
+
+
+let value = null;
+console.log(value ?? "Default"); // Default
+
+
+let user = {};
+
+console.log(user?.name); // undefined (no error)
+
+
+let arr1 = [1, 2];
+let arr2 = [...arr1, 3, 4];
+
+console.log(arr2); // [1, 2, 3, 4]
+
+
+
+
+    </script>
     
 </body>
 </html>
