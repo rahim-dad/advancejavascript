@@ -67,7 +67,11 @@ console.log(fruits[1]); // banana
 const data = [10, "Rahim", true];
 
 
+
+
 //An object is used to store data in key-value pairs.
+//object is the data structure used to store multiple related value 
+//can store number,string,array,function
 const user = {
     name: "Rahim",
     age: 25,
@@ -79,15 +83,17 @@ console.log(user.name); // Rahim
 console.log(user.age);  // 25
 
 //🔹 1. length (not a function)
+//return the number of elements in the array
 const arr = [10, 20, 30];
 
 console.log(arr.length); // 3
 //🔹 2. indexOf()
-const fruits = ["apple", "banana", "mango"];
+const fruitss = ["apple", "banana", "mango"];
 
-console.log(fruits.indexOf("mango")); // 2
+console.log(fruitss.indexOf("mango")); // 2
 
 //🔹 3. concat()
+//the cancat method in javascript is used to merge two or more arrays and return new array
 const a = [1, 2];
 const b = [3, 4];
 
@@ -96,68 +102,90 @@ const result = a.concat(b);
 console.log(result); // [1, 2, 3, 4]
 
 //🔹 4. push()
-const arr = [1, 2];
+//push method in javascript is used to add one or more elements in the array
+const arr1 = [1, 2];
 
-arr.push(3);
+arr1.push(3);
 
-console.log(arr); // [1, 2, 3]
+console.log(arr1); // [1, 2, 3]
 
 //🔹 5. pop()
-const arr = [1, 2, 3];
+//pop method in the javascript is used to remove the last element from the array
+const arr2 = [1, 2, 3];
 
-arr.pop();
+arr2.pop();
 
-console.log(arr); // [1, 2]
+console.log(arr2); // [1, 2]
 
 //🔹 6. shift()
-const arr = [1, 2, 3];
+//shift method is used to remove frist element from the array
 
-arr.shift();
+const arr3 = [1, 2, 3];
 
-console.log(arr); // [2, 3]
+arr3.shift();
+
+console.log(arr3); // [2, 3]
 
 //🔹 7. unshift()
-const arr = [2, 3];
+//added at the start of the array
+const arr4 = [2, 3];
 
-arr.unshift(1);
+arr4.unshift(1);
 
-console.log(arr); // [1, 2, 3]
+console.log(arr4); // [1, 2, 3]
 
 //8. slice()
 
 //👉 Copies part of array (does NOT change original)
 
-const arr = [10, 20, 30, 40];
+const arr5 = [10, 20, 30, 40];
 
-const newArr = arr.slice(1, 3);
+const newArr = arr5.slice(1, 3);
+//3=last index-1
 
 console.log(newArr); // [20, 30]
-console.log(arr);    // original unchanged
+console.log(arr5);    // original unchanged
 
 //9. splice()
 
 //👉 Adds/removes elements (changes original array)
-const arr = [10, 20, 30, 40];
+//the splice methods in javascript array is used add,remove,replace elements in array
 
-arr.splice(1, 2); // remove 2 items from index 1
+let counting =["one","two","three","four","five"];
+let remove= counting.splice(2,0,"hello","rahim");
+//index=2 and 3=three,four,five
+console.log("remove" +remove);
+console.log("original" +counting);
 
-console.log(arr); // [10, 40]
+//example 2
+
+
+const arr6 = [10, 20, 30, 40];
+
+arr6.splice(1, 2); // remove 2 items from index 1
+
+console.log(arr6); // [10, 40]
 
 //10. find()
 
 //👉 Returns the first matching element
+//find () goes through the array and return the frist value that match the condition
+//if nothing match it return undefined
+
 const nums = [5, 10, 15, 20];
 
-const result = nums.find(n => n > 10);
+const results = nums.find(n => n > 10);
 
-console.log(result); // 15
+console.log(results); // 15
 
 //11. map()
 
 //👉 Creates a new array by modifying each element
-const nums = [1, 2, 3];
+//accept callback and applies that function to each elements of array that return new array
 
-const doubled = nums.map(n => n * 2);
+const nums1 = [1, 2, 3];
+
+const doubled = nums1.map(n => n * 2);
 
 console.log(doubled); // [2, 4, 6]
 
@@ -165,8 +193,50 @@ console.log(doubled); // [2, 4, 6]
 //🔹 filter() method in JavaScript arrays (deep explanation)
 
 //👉 The filter() method is used to create a NEW array containing only the elements that pass a condition
+//
 const numbers = [10, 15, 20, 25, 30];
 
-const result = numbers.filter(num => num > 15);
+const result1 = numbers.filter(num => num > 15);
 
-console.log(result);
+console.log(result1);
+
+
+
+
+
+let studentdata = [
+  {
+    name: "basit",
+    course: "advance"
+  },
+  {
+    name: "ali",
+    course: "basic"
+  },
+  {
+    name: "ahmad",
+    course: "advance"
+  }
+];
+
+let advancestudent = studentdata.filter(student => student.course === "advance");
+
+console.log(advancestudent);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
