@@ -2,6 +2,7 @@
 //collect multiple function arguments
 // when a function can take many inputs the rest operator gather them into array
 //rest properity always comes in the end
+// infinite arguments ko lani me help krta hnn
 
 function sum(name, course, ...args) {
     console.log(args);

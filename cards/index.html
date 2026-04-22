@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DOM Example</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 10px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #container {
+            margin-top: 20px;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            font-size: 18px;
+            color: #555;
+        }
+
+        img {
+            width: 250px;       /* control size */
+            height: auto;
+            margin-top: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+    </style>
+
+</head>
+<body>
+
+<button onclick="createElements()">Create Elements</button>
+<button onclick="deleteParagraph()">Delete Paragraph</button>
+<button onclick="deleteImage()">Delete Image</button>
+
+<div id="container"></div>
+
+<script>
+function createElements() {
+    let container = document.getElementById("container");
+
+    // prevent duplicate creation
+    container.innerHTML = "";
+
+    // Create Heading
+    let heading = document.createElement("h1");
+    heading.textContent = "Welcome ..";
+    container.appendChild(heading);
+
+    // Create Paragraph
+    let para = document.createElement("p");
+    para.textContent = "This is a paragraph created using DOM.";
+    para.id = "myPara";
+    container.appendChild(para);
+
+    // Create Image
+    let img = document.createElement("img");
+    img.src = "image1.jpg"; // make sure image is in same folder
+    img.id = "myImage";
+    img.alt = "My Image";
+    container.appendChild(img);
+}
+
+function deleteParagraph() {
+    let para = document.getElementById("myPara");
+    if (para) {
+        para.remove();
+    }
+}
+
+function deleteImage() {
+    let img = document.getElementById("myImage");
+    if (img) {
+        img.remove();
+    }
+}
+</script>
+
+</body>
+</html>
