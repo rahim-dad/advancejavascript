@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Card System</title>
+
+  <style>
+    /* ---------------- PAGE STYLE ---------------- */
+    body {
+      font-family: Arial;              /* Font for entire page */
+      background: #f4f6f9;             /* Light background color */
+      text-align: center;              /* Center all text */
+    }
+
+    /* ---------------- BUTTON STYLE ---------------- */
+    button {
+      padding: 8px 12px;               /* Space inside button */
+      margin: 5px;                     /* Space outside button */
+      border: none;                    /* Remove default border */
+      background: #007bff;             /* Blue color */
+      color: white;                    /* Text color */
+      cursor: pointer;                /* Pointer on hover */
+      border-radius: 5px;              /* Rounded corners */
+    }
+
+    /* Hover effect for buttons */
+    button:hover {
+      background: #0056b3;
+    }
+
+    /* ---------------- CARD CONTAINER ---------------- */
+    #container {
+      display: grid;                   /* Use grid layout */
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;                      /* Space between cards */
+      padding: 20px;
+    }
+
+    /* ---------------- CARD DESIGN ---------------- */
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: left;
+      position: relative;             /* Needed for delete button positioning */
+    }
+
+    /* Delete button inside card (top-right corner) */
+    .delete-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: red;
+    }
+
+    /* Style applied when editing mode is ON */
+    .edit-mode {
+      border: 1px dashed gray;        /* Visual indicator for editing */
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Page Heading -->
+<h1>Card Creator</h1>
+
+<!-- Button to create new card -->
+<button onclick="createCard()">Create Card</button>
+
+<!-- Shows number of cards -->
+<div id="count">Count: 0 / 10</div>
+
+<!-- Shows messages (limit / update message) -->
+<div id="message" style="color:red;"></div>
+
+<!-- Container where cards will appear -->
+<div id="container"></div>
+
+<script>
+
+/* ---------------- GLOBAL VARIABLES ---------------- */
+
+// Total number of cards currently on screen
+let count = 0;
+
+// Maximum number of cards allowed
+let maxLimit = 10;
+
+// Used to number cards (Card #01, #02...)
+let cardNumber = 1;
+
+
+/* ---------------- CREATE CARD FUNCTION ---------------- */
+function createCard() {
+
+  // Get container and message elements from DOM
+  let container = document.getElementById("container");
+  let message = document.getElementById("message");
+
+  // Check if user reached max card limit
+  if (count >= maxLimit) {
+    message.textContent = "Your limit is finished";
+    return; // stop function
+  }
+
+  // Clear any previous message
+  message.textContent = "";
+
+  // Create main card div
+  let card = document.createElement("div");
+  card.className = "card";
+
+  // Create card number (e.g., Card #01)
+  let heading = document.createElement("h3");
+  heading.textContent = "Card #" + String(cardNumber).padStart(2, '0');
+
+  // Create editable title
+  let title = document.createElement("h4");
+  title.textContent = "Card Heading";
+
+  // Create editable paragraph
+  let para = document.createElement("p");
+  para.textContent = "This is a sample paragraph";
+
+  // Create time display
+  let timeText = document.createElement("p");
+
+  // Store the creation time
+  let createdTime = new Date();
+
+  // Initial time text
+  timeText.textContent = "Created just now";
+
+  // Update time every minute
+  setInterval(() => {
+    let now = new Date();
+
+    // Calculate difference in minutes
+    let diff = Math.floor((now - createdTime) / 60000);
+
+    // Update text
+    timeText.textContent = diff === 0 
+      ? "Created just now" 
+      : "Created " + diff + " minute(s) ago";
+
+  }, 60000);
+
+
+  /* ---------------- DELETE BUTTON ---------------- */
+
+  let deleteBtn = document.createElement("button");
+  deleteBtn.textContent = "X";
+  deleteBtn.className = "delete-btn";
+
+  // When delete button is clicked
+  deleteBtn.onclick = () => {
+    card.remove();        // Remove card from UI
+    count--;              // Decrease count
+    updateCount();        // Update counter
+  };
+
+
+  /* ---------------- EDIT BUTTON ---------------- */
+
+  let editBtn = document.createElement("button");
+  editBtn.textContent = "Edit";
+
+  /* ---------------- UPDATE BUTTON ---------------- */
+
+  let updateBtn = document.createElement("button");
+  updateBtn.textContent = "Update";
+
+  // Hide update button initially
+  updateBtn.style.display = "none";
+
+
+  /* ---------------- EDIT CLICK EVENT ---------------- */
+
+  editBtn.onclick = () => {
+
+    // Make title and paragraph editable
+    title.contentEditable = true;
+    para.contentEditable = true;
+
+    // Add border to show editing mode
+    title.classList.add("edit-mode");
+    para.classList.add("edit-mode");
+
+    // Focus cursor on title
+    title.focus();
+  };
+
+
+  /* ---------------- SHOW UPDATE BUTTON AFTER EDIT ---------------- */
+
+  // 'blur' event runs when user clicks outside (finishes editing)
+  title.addEventListener("blur", () => {
+    if (title.contentEditable === "true") {
+      updateBtn.style.display = "inline-block"; // show button
+    }
+  });
+
+  para.addEventListener("blur", () => {
+    if (para.contentEditable === "true") {
+      updateBtn.style.display = "inline-block";
+    }
+  });
+
+
+  /* ---------------- UPDATE CLICK EVENT ---------------- */
+
+  updateBtn.onclick = () => {
+
+    // Disable editing
+    title.contentEditable = false;
+    para.contentEditable = false;
+
+    // Remove editing border
+    title.classList.remove("edit-mode");
+    para.classList.remove("edit-mode");
+
+    // Hide update button again
+    updateBtn.style.display = "none";
+
+    // Show success message
+    message.textContent = "Your card has been updated ✅";
+
+    // Remove message after 2 seconds
+    setTimeout(() => {
+      message.textContent = "";
+    }, 2000);
+  };
+
+
+  /* ---------------- APPEND ELEMENTS ---------------- */
+
+  card.appendChild(deleteBtn);  // Add delete button
+  card.appendChild(heading);    // Add card number
+  card.appendChild(title);      // Add title
+  card.appendChild(para);       // Add paragraph
+  card.appendChild(timeText);   // Add time
+  card.appendChild(editBtn);    // Add edit button
+  card.appendChild(updateBtn);  // Add update button
+
+  // Add card to container
+  container.appendChild(card);
+
+  // Increase counters
+  count++;
+  cardNumber++;
+
+  // Update count display
+  updateCount();
+}
+
+
+/* ---------------- UPDATE COUNT FUNCTION ---------------- */
+
+// Updates the text showing number of cards
+function updateCount() {
+  document.getElementById("count").textContent = `Count: ${count} / 10`;
+}
+
+</script>
+
+</body>
+</html>

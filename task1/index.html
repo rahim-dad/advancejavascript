@@ -4,16 +4,19 @@
     <title>Card System</title>
 
     <style>
+        /* Style for whole page */
         body {
             font-family: Arial, sans-serif;
             background: #f4f6f9;
             text-align: center;
         }
 
+        /* Heading spacing */
         h1 {
             margin-top: 20px;
         }
 
+        /* Button design */
         button {
             padding: 10px 15px;
             margin: 10px;
@@ -24,20 +27,24 @@
             border-radius: 6px;
         }
 
+        /* Button hover effect */
         button:hover {
             background: #0056b3;
         }
 
+        /* Message style (error message) */
         #message {
             color: red;
             font-weight: bold;
         }
 
+        /* Counter text style */
         #count {
             font-size: 18px;
             margin: 10px;
         }
 
+        /* Container for cards (grid layout) */
         #container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -45,6 +52,7 @@
             padding: 20px;
         }
 
+        /* Card design */
         .card {
             background: white;
             padding: 15px;
@@ -54,16 +62,19 @@
             position: relative;
         }
 
+        /* Card title */
         .card h3 {
             margin: 5px 0;
             color: #333;
         }
 
+        /* Card paragraph */
         .card p {
             font-size: 14px;
             color: #666;
         }
 
+        /* Delete button inside card */
         .delete-btn {
             position: absolute;
             top: 10px;
@@ -76,6 +87,7 @@
             cursor: pointer;
         }
 
+        /* Delete button hover */
         .delete-btn:hover {
             background: darkred;
         }
@@ -84,49 +96,79 @@
 
 <body>
 
+<!-- Page heading -->
 <h1>Card Creator</h1>
 
+<!-- Button to create card -->
 <button onclick="createCard()">Create Card</button>
 
+<!-- Show count of cards -->
 <div id="count">Counts: 0 / 10</div>
+
+<!-- Show message (limit reached) -->
 <div id="message"></div>
 
+<!-- Container where cards will appear -->
 <div id="container"></div>
 
 <script>
+
+// number of cards created
 let count = 0;
+
+// maximum cards allowed
 let maxLimit = 10;
+
+// card numbering
 let cardNumber = 1;
 
+
+// function to create a card
 function createCard() {
+
+    // get container and message elements
     let container = document.getElementById("container");
     let message = document.getElementById("message");
 
+    // check if limit reached
     if (count >= maxLimit) {
         message.textContent = "your limit is finished";
-        return;
+        return; // stop function
     }
 
+    // clear message
     message.textContent = "";
 
+    // create card div
     let card = document.createElement("div");
     card.className = "card";
 
+    // create card number heading
     let heading = document.createElement("h3");
     heading.textContent = "Card #" + String(cardNumber).padStart(2, '0');
 
+    // create card title
     let title = document.createElement("h4");
     title.textContent = "Card Heading";
 
+    // create time text
     let timeText = document.createElement("p");
+
+    // store current time
     let createdTime = new Date();
+
+    // initial text
     timeText.textContent = "Created just now";
 
     // update time every minute
     setInterval(() => {
         let now = new Date();
+
+        // calculate difference in minutes
+        //It rounds DOWN to nearest whole number
         let diff = Math.floor((now - createdTime) / 60000);
 
+        // update text based on time
         if (diff === 0) {
             timeText.textContent = "Created just now";
         } else {
@@ -134,32 +176,44 @@ function createCard() {
         }
     }, 60000);
 
+    // create delete button
     let deleteBtn = document.createElement("button");
+   // The button will display
     deleteBtn.textContent = "X";
+//This connects the button with your CSS
     deleteBtn.className = "delete-btn";
 
+    // delete card when button clicked
     deleteBtn.onclick = function() {
-        card.remove();
-        count--;
-        updateCount();
-        message.textContent = "";
+        card.remove(); // remove card
+        count--; // decrease count
+        updateCount(); // update counter
+        message.textContent = ""; // clear message
     };
 
+    // add elements inside card
     card.appendChild(deleteBtn);
     card.appendChild(heading);
     card.appendChild(title);
     card.appendChild(timeText);
 
+    // add card to container
     container.appendChild(card);
 
+    // increase count and card number
     count++;
     cardNumber++;
+
+    // update count display
     updateCount();
 }
 
+
+// function to update counter text
 function updateCount() {
     document.getElementById("count").textContent = "count: " + count + " / 10";
 }
+
 </script>
 
 </body>
