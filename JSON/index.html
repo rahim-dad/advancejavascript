@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JSON Table Example</title>
+</head>
+<body>
+
+<!-- Heading -->
+<h2>User Data</h2>
+
+<!-- Buttons to trigger functions -->
+<button onclick="saveData()">Send Data</button>
+<button onclick="loadData()">Show Data</button>
+
+<!-- Table to display data -->
+<table border="1" id="table">
+  <tr>
+    <th>S.No</th>
+    <th>Name</th>
+    <th>City</th>
+    <th>Age</th>
+  </tr>
+</table>
+
+<script>
+
+// ===============================
+// 👉 STEP 1: Original Data (Array of Objects)
+// ===============================
+// This is normal JavaScript data (NOT JSON yet)
+let users = [
+  { id: 1, name: "rd", city: "karachi", age: 20 },
+  { id: 2, name: "kd", city: "islamabad", age: 17 },
+  { id: 3, name: "arfat", city: "gilgit", age: 22 },
+  { id: 4, name: "namwb", city: "gilgit", age: 22 },
+  { id: 5, name: "jamil", city: "uk", age: 22 },
+  { id: 6, name: "tariq", city: "sweden", age: 22 },
+  { id: 7, name: "saleem", city: "beijing", age: 22 }
+];
+
+
+// ===============================
+// 👉 STEP 2: SAVE DATA FUNCTION
+// ===============================
+function saveData() {
+
+  // Convert JavaScript object/array → JSON string
+  // Because localStorage can only store strings
+  let jsonData = JSON.stringify(users);
+
+  // Store JSON string in browser localStorage
+  localStorage.setItem("usersData", jsonData);
+
+  // Show confirmation message
+  alert("Data saved successfully!");
+}
+
+
+// ===============================
+// 👉 STEP 3: LOAD DATA FUNCTION
+// ===============================
+function loadData() {
+
+  // Get stored JSON string from localStorage
+  let jsonData = localStorage.getItem("usersData");
+
+  // Check if data exists
+  if (!jsonData) {
+    alert("No data found! Click 'Send Data' first.");
+    return; // stop function if no data
+  }
+
+  // Convert JSON string → JavaScript object/array
+  let usersArray = JSON.parse(jsonData);
+
+  // Get table element from HTML
+  let table = document.getElementById("table");
+
+  // ===============================
+  // Clear old table data
+  // ===============================
+  table.innerHTML = `
+    <tr>
+      <th>S.No</th>
+      <th>Name</th>
+      <th>City</th>
+      <th>Age</th>
+    </tr>
+  `;
+
+  // ===============================
+  // Loop through data and display rows
+  // ===============================
+  usersArray.forEach((user, index) => {
+
+    // Create a table row using template literals
+    let row = `<tr>
+      <td>${index + 1}</td> <!-- Serial Number -->
+      <td>${user.name}</td>
+      <td>${user.city}</td>
+      <td>${user.age}</td>
+    </tr>`;
+
+    // Add row to table
+    table.innerHTML += row;
+  });
+}
+
+</script>
+
+</body>
+</html>
