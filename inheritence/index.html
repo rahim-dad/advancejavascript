@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript Inheritance Demo</title>
+
+    <style>
+        /* ================================
+           BASIC PAGE STYLING
+        ================================= */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        .container {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #00c6ff;
+            color: black;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #0072ff;
+            color: white;
+        }
+
+        .output {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>JavaScript Inheritance Playground</h1>
+    <p>Click buttons to see inheritance in action</p>
+
+    <div class="container">
+        <button onclick="runPrototypeExample()">Prototype Inheritance</button>
+        <button onclick="runClassExample()">Class Inheritance</button>
+
+        <div class="output" id="output"></div>
+    </div>
+
+    <script>
+        /* =====================================================
+           HELPER FUNCTION TO PRINT OUTPUT ON SCREEN
+        ===================================================== */
+        function print(msg) {
+            document.getElementById("output").innerHTML += msg + "<br>";
+        }
+
+        function clearOutput() {
+            document.getElementById("output").innerHTML = "";
+        }
+
+        /* =====================================================
+           1. PROTOTYPE-BASED INHERITANCE (OLD STYLE JS)
+        ===================================================== */
+        function runPrototypeExample() {
+
+            clearOutput();
+
+            print("=== PROTOTYPE INHERITANCE ===");
+
+            /* -----------------------------------------------
+               STEP 1: Create Parent Constructor Function
+            ------------------------------------------------ */
+            function Animal(name) {
+                this.name = name;
+            }
+
+            /* Add method to prototype (shared by all objects) */
+            Animal.prototype.speak = function () {
+                return this.name + " makes a sound.";
+            };
+
+            /* -----------------------------------------------
+               STEP 2: Create Child Constructor
+            ------------------------------------------------ */
+            function Dog(name, breed) {
+                /* Call parent constructor using 'call' */
+                Animal.call(this, name); // inherit properties
+                this.breed = breed;
+            }
+
+            /* -----------------------------------------------
+               STEP 3: Inherit Prototype Methods
+            ------------------------------------------------ */
+            Dog.prototype = Object.create(Animal.prototype);
+
+            /* Fix constructor reference */
+            Dog.prototype.constructor = Dog;
+
+            /* -----------------------------------------------
+               STEP 4: Add Child-Specific Method
+            ------------------------------------------------ */
+            Dog.prototype.bark = function () {
+                return this.name + " barks loudly!";
+            };
+
+            /* -----------------------------------------------
+                Create Object
+            ------------------------------------------------ */
+            const myDog = new Dog("Buddy", "Labrador");
+
+            /* -----------------------------------------------
+               STEP 6: Demonstrate Inheritance
+            ------------------------------------------------ */
+            print("Dog Name: " + myDog.name);
+            print("Breed: " + myDog.breed);
+
+            /* Inherited method from Animal */
+            print("Speak: " + myDog.speak());
+
+            /* Own method */
+            print("Bark: " + myDog.bark());
+        }
+
+        /* =====================================================
+           2. CLASS-BASED INHERITANCE (MODERN ES6)
+        ===================================================== */
+        function runClassExample() {
+
+            clearOutput();
+
+            print("=== CLASS INHERITANCE (ES6) ===");
+
+            /* -----------------------------------------------
+               STEP 1: Create Parent Class
+            ------------------------------------------------ */
+            class Vehicle {
+                constructor(brand) {
+                    this.brand = brand;
+                }
+
+                /* Method available to all child classes */
+                start() {
+                    return this.brand + " vehicle is starting...";
+                }
+            }
+
+            /* -----------------------------------------------
+               STEP 2: Create Child Class using 'extends'
+            ------------------------------------------------ */
+            class Car extends Vehicle {
+
+                constructor(brand, model) {
+
+                    /* Call parent constructor using super() */
+                    super(brand);
+
+                    this.model = model;
+                }
+
+                /* Child-specific method */
+                drive() {
+                    return this.brand + " " + this.model + " is driving.";
+                }
+
+                /* Override parent method */
+                start() {
+                    return this.brand + " car engine started!";
+                }
+            }
+
+            /* -----------------------------------------------
+               STEP 3: Create Object
+            ------------------------------------------------ */
+            const myCar = new Car("Toyota", "Corolla");
+
+            /* -----------------------------------------------
+               STEP 4: Demonstrate Inheritance
+            ------------------------------------------------ */
+            print("Brand: " + myCar.brand);
+            print("Model: " + myCar.model);
+
+            /* Overridden method */
+            print("Start: " + myCar.start());
+
+            /* Child method */
+            print("Drive: " + myCar.drive());
+
+            /* Parent method (can still access via prototype if needed) */
+            print("Access parent method manually: " + Vehicle.prototype.start.call(myCar));
+        }
+
+    </script>
+
+</body>
+</html>

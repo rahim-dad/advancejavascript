@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Prototype Task Manager</title>
+
+  <style>
+    /* Basic page styling */
+    body {
+      font-family: Arial;      /* Set font */
+      background: #f4f4f4;     /* Light background */
+      text-align: center;      /* Center everything */
+    }
+
+    /* Input field styling */
+    input {
+      padding: 8px;
+      width: 200px;
+    }
+
+    /* Button styling */
+    button {
+      padding: 8px 12px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    /* Table styling */
+    table {
+      margin: 20px auto;       /* Center table */
+      border-collapse: collapse;
+      width: 60%;
+    }
+
+    /* Table cells */
+    th, td {
+      border: 1px solid #333;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Title -->
+  <h2>📝 Task Manager (Using Prototypes)</h2>
+
+  <!-- Input box to type task -->
+  <input type="text" id="taskInput" placeholder="Enter task">
+
+  <!-- Button to add task -->
+  <button onclick="addTask()">Add Task</button>
+
+  <!-- Table to display tasks -->
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>        <!-- Serial number -->
+        <th>Task</th>     <!-- Task name -->
+        <th>Action</th>   <!-- Delete button -->
+      </tr>
+    </thead>
+
+    <!-- Tasks will be inserted here dynamically -->
+    <tbody id="taskTable"></tbody>
+  </table>
+
+<script>
+
+/******************************************************
+ 🔥 STEP 1: Task Constructor (represents ONE task)
+******************************************************/
+
+function Task(name) {
+  // Each task object will have a name property
+  this.name = name;
+}
+
+
+/******************************************************
+ 🔥 STEP 2: TaskManager Constructor (stores all tasks)
+******************************************************/
+
+function TaskManager() {
+  // This array will store all tasks
+  this.tasks = [];
+}
+
+
+/******************************************************
+ 🔥 STEP 3: Add Task (Prototype Method)
+******************************************************/
+
+TaskManager.prototype.add = function(taskName) {
+
+  // Create a new Task object
+  let task = new Task(taskName);
+
+  // Add task into tasks array
+  this.tasks.push(task);
+
+  // Re-render UI to show updated list
+  this.render();
+};
+
+
+/******************************************************
+ 🔥 STEP 4: Delete Task (Prototype Method)
+******************************************************/
+
+TaskManager.prototype.delete = function(index) {
+
+  // Remove 1 item from tasks array at given index
+  this.tasks.splice(index, 1);
+
+  // Update UI again
+  this.render();
+};
+
+
+/******************************************************
+ 🔥 STEP 5: Render Tasks (Prototype Method)
+******************************************************/
+
+TaskManager.prototype.render = function() {
+
+  // Get table body where tasks will be shown
+  let table = document.getElementById("taskTable");
+
+  // Clear old data before re-rendering
+  table.innerHTML = "";
+
+  // Loop through all tasks
+  this.tasks.forEach((task, index) => {
+
+    // Add new row for each task
+    table.innerHTML += `
+      <tr>
+        <!-- Serial number -->
+        <td>${index + 1}</td>
+
+        <!-- Task name -->
+        <td>${task.name}</td>
+
+        <!-- Delete button -->
+        <td>
+          <button onclick="manager.delete(${index})">Delete</button>
+        </td>
+      </tr>
+    `;
+  });
+};
+
+
+/******************************************************
+ 🔥 STEP 6: Create TaskManager Object
+******************************************************/
+
+// Create one manager that controls everything
+let manager = new TaskManager();
+
+
+/******************************************************
+ 🔥 STEP 7: UI Function (Runs when button clicked)
+******************************************************/
+
+function addTask() {
+
+  // Get input field
+  let input = document.getElementById("taskInput");
+
+  // If input is empty → show warning
+  if(input.value === "") {
+    alert("Please enter a task");
+    return;
+  }
+
+  // Add task using prototype method
+  manager.add(input.value);
+
+  // Clear input field after adding
+  input.value = "";
+}
+
+</script>
+
+</body>
+</html>

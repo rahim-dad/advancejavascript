@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+//call () method
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+function Student(name, age, grade) {
+  Person.call(this, name, age); // copy properties
+  this.grade = grade;
+}
+
+let s1 = new Student("Rahim", 20, "A");
+
+console.log(s1.name);  // Rahim
+console.log(s1.grade); // A
+
+
+
+//2. Object.create() → Link prototypes
+Person.prototype.sayHello = function() {
+  console.log("Hello " + this.name);
+};
+
+Student.prototype = Object.create(Person.prototype);
+
+let s11 = new Student("Rahim", 20, "A");
+s11.sayHello(); // Hello Rahim
+
+//Student objects can now use sayHello()
+//Because of prototype link
+
+
+/******************************************************
+  PROTOTYPE INHERITANCE EXAMPLE (Game Characters)
+******************************************************/
+
+/*
+  Parent Constructor Function: Character
+  This is the base blueprint for all characters in the game
+*/
+function Character(name, health) {
+  // Properties specific to each character
+  this.name = name;
+  this.health = health;
+}
+
+/*
+  Prototype Method:
+  This method is NOT copied into every object.
+  Instead, it is shared between all Character objects.
+*/
+Character.prototype.attack = function() {
+  console.log(this.name + " attacks!");
+};
+
+
+/******************************************************
+  CHILD 1: WARRIOR
+******************************************************/
+
+/*
+  Warrior constructor function (child of Character)
+*/
+function Warrior(name, health, weapon) {
+  // call() is used to copy properties from Character
+  // It sets "this" to the current Warrior object
+  Character.call(this, name, health);
+
+  // Unique property for Warrior
+  this.weapon = weapon;
+}
+
+/*
+  Inheriting prototype methods from Character
+  This creates a link between Warrior and Character prototypes
+*/
+Warrior.prototype = Object.create(Character.prototype);
+
+// Fix constructor reference (important step)
+Warrior.prototype.constructor = Warrior;
+
+/*
+  Unique method for Warrior
+  This is NOT shared with Character
+*/
+Warrior.prototype.useWeapon = function() {
+  console.log(this.name + " uses " + this.weapon);
+};
+
+
+
+
+/*
+  Mage constructor function (child of Character)
+*/
+function Mage(name, health, spell) {
+  // Inherit properties from Character
+  Character.call(this, name, health);
+
+  // Unique property for Mage
+  this.spell = spell;
+}
+
+/*
+  Inherit methods from Character prototype
+*/
+Mage.prototype = Object.create(Character.prototype);
+
+// Fix constructor reference
+Mage.prototype.constructor = Mage;
+
+/*
+  Unique method for Mage
+*/
+Mage.prototype.castSpell = function() {
+  console.log(this.name + " casts " + this.spell);
+};
+
+
+/******************************************************
+  CREATE OBJECTS
+******************************************************/
+
+// Creating Warrior object
+let w1 = new Warrior("Thor", 100, "Hammer");
+
+// Creating Mage object
+let m1 = new Mage("Merlin", 80, "Fireball");
+
+
+/******************************************************
+ USING METHODS
+******************************************************/
+
+// Warrior methods
+w1.attack();      // inherited from Character prototype
+w1.useWeapon();   // own method
+
+// Mage methods
+m1.attack();      // inherited from Character prototype
+m1.castSpell();   // own method
+
+    </script>
+</body>
+</html>
