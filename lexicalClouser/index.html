@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Closure & Lexical Scope</title>
+</head>
+<body>
+
+<h2>Closure and Lexical Scope Example</h2>
+
+<button onclick="counter()">Click Me</button>
+
+<h3 id="output"></h3>
+
+<script>
+
+  // 🔹 STEP 1:
+  // outer function
+  function outerFunction() {
+
+    // 🔹 This variable belongs to outerFunction
+    let count = 0;
+
+    // 🔹 STEP 2:
+    // inner function
+    function innerFunction() {
+
+      // 🔹 inner function can access outer variable
+      // because of LEXICAL SCOPE
+      count++;
+
+      // Show count on screen
+      document.getElementById("output").innerText =
+      "Button clicked " + count + " times";
+    }
+
+    // 🔹 STEP 3:
+    // return inner function
+    return innerFunction;
+  }
+
+  // 🔹 STEP 4:
+  // counter now stores returned innerFunction
+  let counter = outerFunction();
+
+</script>
+
+</body>
+</html>

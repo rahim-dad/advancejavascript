@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Try Catch Finally Example</title>
+</head>
+<body>
+
+<h2>Try Catch Finally Example</h2>
+
+<button onclick="checkData()">Run Code</button>
+
+<h3 id="output"></h3>
+
+<script>
+//“If an error happens, don’t crash the program — handle it safely.”
+function checkData(){
+
+    // 🔹 try block
+    // Code that MAY cause error
+    try {
+
+        // Create object
+        let student = {
+            name: "Ali"
+        };
+
+        // 🔹 This will cause error
+        // because course does not exist
+        console.log(student.course.name);
+
+    }
+
+    // 🔹 catch block
+    // Runs ONLY if error happens
+    catch(error){
+
+        // Show error message
+        document.getElementById("output").innerText =
+        "❌ Error Found: " + error.message;
+
+    }
+
+    // 🔹 finally block
+    // Always runs (error or no error)
+    finally{
+
+        console.log("Finally block always runs");
+
+    }
+}
+
+</script>
+
+</body>
+</html>

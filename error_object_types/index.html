@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Error Handling</title>
+
+  <style>
+
+    body{
+      font-family: Arial;
+      padding: 20px;
+    }
+
+    button{
+      margin: 10px;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    #output{
+      margin-top: 20px;
+      font-size: 18px;
+      color: darkblue;
+    }
+
+  </style>
+
+</head>
+<body>
+
+<h1>JavaScript Error Handling Examples</h1>
+
+<!-- 🔹 Buttons -->
+<button onclick="errorObjectExample()">1. Error Object</button>
+
+<button onclick="typeErrorExample()">2. Type Error</button>
+
+<button onclick="referenceErrorExample()">3. Reference Error</button>
+
+<button onclick="syntaxErrorExample()">4. Syntax Error</button>
+
+<button onclick="customErrorExample()">5. Custom Error</button>
+
+<button onclick="bestPracticeExample()">6. Best Practice</button>
+
+<!-- 🔹 Output Area -->
+<h3 id="output"></h3>
+
+<script>
+
+//When an error happens, JavaScript creates an Error Object
+
+// =====================================================
+// 🔥 1. ERROR OBJECT EXAMPLE
+// =====================================================
+
+function errorObjectExample(){
+
+    try{
+
+        // 🔹 This variable does not exist
+        console.log(userName);
+
+    }
+
+    catch(error){
+
+        // 🔹 Error object contains information
+        document.getElementById("output").innerHTML =
+
+        "❌ Error Name: " + error.name + "<br>" +
+
+        "❌ Error Message: " + error.message;
+
+        console.log(error);
+
+    }
+
+    finally{
+
+        console.log("Finally block always runs");
+
+    }
+
+}
+
+
+
+
+// =====================================================
+// 🔥 2. TYPE ERROR EXAMPLE
+// =====================================================
+
+function typeErrorExample(){
+
+    try{
+
+        // 🔹 Number does not have toUpperCase()
+        let num = 100;
+
+        num.toUpperCase();
+
+    }
+
+    catch(error){
+
+        document.getElementById("output").innerHTML =
+
+        "❌ TYPE ERROR<br>" +
+
+        "Error Name: " + error.name + "<br>" +
+
+        "Message: " + error.message;
+
+    }
+
+}
+
+
+
+
+// =====================================================
+// 🔥 3. REFERENCE ERROR EXAMPLE
+// =====================================================
+
+function referenceErrorExample(){
+
+    try{
+
+        // 🔹 studentName variable was never created
+        console.log(studentName);
+
+    }
+
+    catch(error){
+
+        document.getElementById("output").innerHTML =
+
+        "❌ REFERENCE ERROR<br>" +
+
+        "Error Name: " + error.name + "<br>" +
+
+        "Message: " + error.message;
+
+    }
+
+}
+
+
+
+
+// =====================================================
+// 🔥 4. SYNTAX ERROR EXAMPLE
+// =====================================================
+
+function syntaxErrorExample(){
+
+    try{
+
+        // 🔹 eval runs code as string
+        // 🔹 Missing closing bracket causes syntax error
+
+        eval("let x = ;");
+
+    }
+
+    catch(error){
+
+        document.getElementById("output").innerHTML =
+
+        "❌ SYNTAX ERROR<br>" +
+
+        "Error Name: " + error.name + "<br>" +
+
+        "Message: " + error.message;
+
+    }
+
+}
+
+
+
+
+// =====================================================
+// 🔥 5. CUSTOM ERROR EXAMPLE
+// =====================================================
+
+function customErrorExample(){
+
+    try{
+
+        // 🔹 Example age value
+        let age = 15;
+
+        // 🔹 Custom validation
+        if(age < 18){
+
+            // 🔹 Throw custom error
+            throw new Error("Age must be 18 or above");
+
+        }
+
+        document.getElementById("output").innerHTML =
+        "✅ Access Granted";
+
+    }
+
+    catch(error){
+
+        document.getElementById("output").innerHTML =
+
+        "❌ CUSTOM ERROR<br>" +
+
+        "Message: " + error.message;
+
+    }
+
+}
+
+
+
+
+// =====================================================
+// 🔥 6. ERROR HANDLING BEST PRACTICE
+// =====================================================
+
+function bestPracticeExample(){
+
+    try{
+
+        // 🔹 Simulate API/user data
+        let user = {
+            name: "Ali"
+        };
+
+        // 🔹 Optional chaining prevents crash
+        let city = user.address?.city;
+
+        // 🔹 If city not found
+        if(!city){
+
+            // 🔹 Throw meaningful error
+            throw new Error("User city not found");
+
+        }
+
+        document.getElementById("output").innerHTML =
+        city;
+
+    }
+
+    catch(error){
+
+        // 🔹 Show friendly message
+        document.getElementById("output").innerHTML =
+
+        "⚠️ Something went wrong<br>" +
+
+        "Message: " + error.message;
+
+        // 🔹 Log full error for developers
+        console.error(error);
+
+    }
+
+    finally{
+
+        console.log("Cleanup code can run here");
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
