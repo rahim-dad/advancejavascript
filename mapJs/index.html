@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interactive Map Example</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #f4f4f4;
+    }
+
+    input {
+      padding: 8px;
+      margin: 5px;
+    }
+
+    button {
+      padding: 8px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    #output {
+      margin-top: 20px;
+      background: white;
+      padding: 10px;
+      width: 350px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>📦 Interactive JavaScript Map</h2>
+
+<!-- Input for key -->
+<input type="text" id="key" placeholder="Enter key (e.g. name)">
+
+<!-- Input for value -->
+<input type="text" id="value" placeholder="Enter value (e.g. Rahim)">
+
+<br>
+
+<!-- Buttons for Map operations -->
+<button onclick="setData()">set()</button>
+<button onclick="checkData()">has()</button>
+<button onclick="deleteData()">delete()</button>
+<button onclick="clearData()">clear()</button>
+<button onclick="showData()">show all</button>
+
+<!-- Output -->
+<div id="output"></div>
+
+<script>
+
+/******************************************************
+ 🔥 Create Map
+******************************************************/
+let myMap = new Map();
+
+
+/******************************************************
+ 🔥 set() → Add key-value from input
+ //Used to add or update a value
+******************************************************/
+function setData() {
+
+  // get values from input fields
+  let key = document.getElementById("key").value;
+  let value = document.getElementById("value").value;
+
+  // add to map
+  myMap.set(key, value);
+
+  // show message
+  document.getElementById("output").innerHTML =
+    "Added → " + key + " : " + value;
+}
+
+
+/******************************************************
+ 🔥 has() → Check if key exists
+******************************************************/
+function checkData() {
+
+  let key = document.getElementById("key").value;
+
+  // check key
+  let result = myMap.has(key);
+
+  document.getElementById("output").innerHTML =
+    "Does '" + key + "' exist? → " + result;
+}
+
+
+/******************************************************
+ 🔥 delete() → Remove key
+******************************************************/
+function deleteData() {
+
+  let key = document.getElementById("key").value;
+
+  // delete key
+  myMap.delete(key);
+
+  document.getElementById("output").innerHTML =
+    "Deleted key → " + key;
+}
+
+
+/******************************************************
+ 🔥 clear() → Remove all data
+******************************************************/
+function clearData() {
+
+  // clear entire map
+  myMap.clear();
+
+  document.getElementById("output").innerHTML =
+    "All data cleared";
+}
+
+
+/******************************************************
+ 🔥 iteration → Show all key-value pairs
+******************************************************/
+function showData() {
+
+  let text = "";
+
+  // loop through map
+  for (let [key, value] of myMap) {
+
+    // add each pair to text
+    text += key + " : " + value + "<br>";
+  }
+
+  // if map empty
+  if (text === "") {
+    text = "Map is empty";
+  }
+
+  // show on screen
+  document.getElementById("output").innerHTML = text;
+}
+
+</script>
+
+</body>
+</html>

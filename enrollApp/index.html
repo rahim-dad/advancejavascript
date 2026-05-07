@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Enrollment</title>
+</head>
+<body>
+
+    <!-- 🔹 Input fields for student data -->
+    <input type="text" placeholder="Enter Name" id="name">
+    <input type="text" placeholder="Enter Course" id="course">
+    <input type="text" placeholder="Enter CNIC" id="cnic">
+
+    <!-- 🔹 Enroll button -->
+    <button onclick="enrolledStudent()">Enroll</button>
+
+    <!-- 🔹 Message area -->
+    <h3 id="message"></h3>
+
+    <!-- 🔹 List to show students -->
+    <ul id="studentList"></ul>
+
+<script>
+
+
+ //  Create storage (Map + Set)
+
+
+// Map → stores student data (id → student object)
+let usdpStudents = new Map();
+
+// Set → stores CNICs to prevent duplicates
+//A Set is a collection that only allows unique values
+let cnicSet = new Set();
+
+// Auto increment ID
+let id = 1;
+
+
+
+ //STEP 2: Enroll Student Function
+
+function enrolledStudent(){
+
+    // Get values from input fields
+    let name = document.getElementById("name").value;
+    let course = document.getElementById("course").value;
+    let cnic = document.getElementById("cnic").value;
+
+    
+     //Check empty fields
+    
+    if(name === "" || course === "" || cnic === ""){
+        document.getElementById("message").innerText =
+        " Please fill all fields";
+        return;
+    }
+
+    
+     //  Check duplicate CNIC
+    
+    if(cnicSet.has(cnic)){
+        document.getElementById("message").innerText =
+        "❌ CNIC already exists!";
+        return;
+    }
+
+    
+     //  Store student in Map
+   
+    usdpStudents.set(id, {
+        name: name,
+        course: course,
+        cnic: cnic
+    });
+
+    // Save CNIC in Set
+    cnicSet.add(cnic);
+
+    // Increase ID for next student
+    id++;
+
+    // Success message
+    document.getElementById("message").innerText =
+    "✅ Student Enrolled Successfully";
+
+    
+    //  Update UI list
+    //updateList() refreshes the student list on the screen using the latest data.
+    updateList();
+
+   
+    //  Clear inputs
+   //Go to the name input box and remove whatever is written in it
+    document.getElementById("name").value = "";
+    document.getElementById("course").value = "";
+    document.getElementById("cnic").value = "";
+}
+
+
+
+ //  Render List Function
+
+function updateList() {
+//<ul id="studentList"></ul>
+    let lists = document.getElementById("studentList");
+
+    // Clear old list before re-rendering
+    //This removes everything inside <ul>
+    lists.innerHTML = "";
+
+    // Create index counter (1,2,3...)
+    let index = 1;
+
+    
+     //  Loop through Map
+   
+    for(let [key, student] of usdpStudents){
+
+        // Create list item
+        let listItem = document.createElement("li");
+
+         // STEP 10: Add index + student data
+       //Put data inside list item
+        listItem.textContent =
+        `${index}. ${student.name} | ${student.course} | ${student.cnic}`;
+
+        
+        //Add item to screen
+        //It adds a child element inside a parent element
+        lists.appendChild(listItem);
+
+        // Increase index
+        index++;
+    }
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Set Example</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #f4f4f4;
+    }
+
+    button {
+      padding: 10px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    #output {
+      margin-top: 20px;
+      background: white;
+      padding: 10px;
+      width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>🔥 JavaScript Set Example</h2>
+
+<!-- Buttons to test methods -->
+<button onclick="addData()">add()</button>
+<button onclick="checkData()">has()</button>
+<button onclick="deleteData()">delete()</button>
+<button onclick="clearData()">clear()</button>
+<button onclick="showData()">Show All</button>
+
+<div id="output"></div>
+
+<script>
+
+/******************************************************
+ 🔥 STEP 1: Create a Set (stores unique values)
+******************************************************/
+let mySet = new Set();
+
+
+/******************************************************
+ 🔥 STEP 2: add() → Add values (no duplicates allowed)
+******************************************************/
+function addData() {
+
+  mySet.add("Apple");
+  mySet.add("Banana");
+  mySet.add("Apple"); // duplicate → ignored
+
+  document.getElementById("output").innerHTML =
+    "Added values (duplicates removed automatically)";
+}
+
+
+/******************************************************
+ 🔥 STEP 3: has() → Check if value exists
+******************************************************/
+function checkData() {
+
+  let result = mySet.has("Apple");
+
+  document.getElementById("output").innerHTML =
+    "Does 'Apple' exist? → " + result;
+}
+
+
+/******************************************************
+ 🔥 STEP 4: delete() → Remove value
+******************************************************/
+function deleteData() {
+
+  mySet.delete("Apple");
+
+  document.getElementById("output").innerHTML =
+    "'Apple' removed";
+}
+
+
+/******************************************************
+ 🔥 STEP 5: clear() → Remove all values
+******************************************************/
+function clearData() {
+
+  mySet.clear();
+
+  document.getElementById("output").innerHTML =
+    "All values cleared";
+}
+
+
+/******************************************************
+ 🔥 STEP 6: size → Count values
+******************************************************/
+// Example usage (not button-based)
+console.log(mySet.size);
+
+
+/******************************************************
+ 🔥 STEP 7: Iteration → Show all values
+******************************************************/
+function showData() {
+
+  let text = "";
+
+  // loop through set
+  for (let value of mySet) {
+    text += value + "<br>";
+  }
+
+  if (text === "") {
+    text = "Set is empty";
+  }
+
+  document.getElementById("output").innerHTML = text;
+}
+
+</script>
+
+</body>
+</html>

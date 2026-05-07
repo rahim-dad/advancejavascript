@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Symbol Example</title>
+</head>
+<body>
+
+<h2>Student Symbol Example</h2>
+
+<button onclick="showStudents()">Show Students</button>
+
+<h3 id="output"></h3>
+
+<script>
+
+// 🔹 Step 1: Create unique Symbols (hidden IDs)
+//Symbol() creates a unique and hidden key that protects your data from conflicts
+//naya primative genertae krta hnn
+let id1 = Symbol("studentID");
+let id2 = Symbol("studentID");
+
+// 🔹 Step 2: Create students with Symbol keys
+let student1 = {
+    name: "Ali",
+    [id1]: 101
+};
+
+let student2 = {
+    name: "Ahmed",
+    [id2]: 102
+};
+
+// 🔹 Step 3: Function to show data on screen
+function showStudents(){
+
+    let result = "";
+
+    // Access normal properties
+    result += "Name: " + student1.name + "<br>";
+    result += "ID: " + student1[id1] + "<br><br>";
+
+    result += "Name: " + student2.name + "<br>";
+    result += "ID: " + student2[id2];
+
+    // Show in HTML
+    document.getElementById("output").innerHTML = result;
+}
+
+</script>
+
+</body>
+</html>

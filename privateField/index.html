@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Private Field Example</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #f4f4f4;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 5px;
+    }
+
+    .box {
+      background: white;
+      padding: 20px;
+      margin: 50px auto;
+      width: 300px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+    <h2>🏦 Bank Account</h2>
+
+    <!-- Input for amount -->
+    <input type="number" id="amount" placeholder="Enter amount">
+
+    <br>
+
+    <!-- Buttons -->
+    <button onclick="deposit()">Deposit</button>
+    <button onclick="withdraw()">Withdraw</button>
+    <button onclick="checkBalance()">Check Balance</button>
+
+    <h3 id="output"></h3>
+  </div>
+
+<script>
+
+/******************************************************
+ 🔥 Class with Private Field
+******************************************************/
+
+class BankAccount {
+
+  // private field (hidden from outside)
+  #balance = 0;
+
+  constructor(owner, amount) {
+    this.owner = owner;      // public
+    this.#balance = amount;  // private
+  }
+
+  // deposit money
+  deposit(amount) {
+    this.#balance += amount;
+  }
+
+  // withdraw money
+  withdraw(amount) {
+    if (amount <= this.#balance) {
+      this.#balance -= amount;
+    } else {
+      return "Not enough balance";
+    }
+  }
+
+  // get balance
+  getBalance() {
+    return this.#balance;
+  }
+}
+
+
+/******************************************************
+ 🔥 Create Account Object
+******************************************************/
+
+let account = new BankAccount("Rahim", 100);
+
+
+/******************************************************
+ 🔥 UI Functions
+******************************************************/
+
+function deposit() {
+  let amount = Number(document.getElementById("amount").value);
+
+  account.deposit(amount);
+
+  document.getElementById("output").innerText = "Deposited: " + amount;
+}
+
+function withdraw() {
+  let amount = Number(document.getElementById("amount").value);
+
+  let result = account.withdraw(amount);
+
+  if (result) {
+    document.getElementById("output").innerText = result;
+  } else {
+    document.getElementById("output").innerText = "Withdrawn: " + amount;
+  }
+}
+
+function checkBalance() {
+  let balance = account.getBalance();
+
+  document.getElementById("output").innerText = "Balance: " + balance;
+}
+
+
+/******************************************************
+ 🔥 IMPORTANT: Private Field Protection
+******************************************************/
+
+// console.log(account.#balance); ❌ ERROR
+// console.log(account.balance);  ❌ undefined
+
+</script>
+
+</body>
+</html>
