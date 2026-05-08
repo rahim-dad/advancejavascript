@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Callback Example</title>
+</head>
+<body>
+
+<h2>Pizza Delivery Callback Example 🍕</h2>
+
+<button onclick="orderPizza()">Order Pizza</button>
+
+<h3 id="output"></h3>
+
+<script>
+
+
+//  STEP 1:
+// Callback function
+
+function eatPizza(){
+
+    // 🔹 This runs AFTER pizza delivery
+    document.getElementById("output").innerText =
+    "🍕 Pizza arrived! Start eating.";
+
+}
+
+
+
+
+// 🔥 STEP 2:
+// Main function
+
+function makePizza(callback){
+
+    // 🔹 Show cooking message
+    document.getElementById("output").innerText =
+    "👨‍🍳 Pizza is being prepared...";
+
+
+    // 🔹 Simulate cooking delay
+    setTimeout(() => {
+
+        // 🔹 Run callback function
+        callback();
+
+    }, 3000);
+
+}
+
+
+
+
+// 🔥 STEP 3:
+// Button click function
+
+function orderPizza(){
+
+    // 🔹 Pass callback function
+    makePizza(eatPizza);
+
+}
+
+
+</script>
+
+</body>
+</html>
