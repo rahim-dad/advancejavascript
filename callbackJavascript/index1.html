@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Callback Order System</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
+        #status { color: blue; font-weight: bold; }
+        .log { background: #f4f4f4; padding: 10px; border-radius: 5px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <h1>Order Processing</h1>
+    <p>Check your browser console (F12) to see the full logic!</p>
+    
+    <div class="log">
+        <p id="system-msg">System ready...</p>
+        <p id="status"></p>
+    </div>
+
+    <script>
+        // 1. The main function that uses a callback
+        function processOrder(orderId, amount, callback) {
+            const statusEl = document.getElementById('status');
+            statusEl.innerText = `Checking inventory for Order #${orderId}...`;
+
+            // Simulate a 2-second delay
+            setTimeout(() => {
+                const orderDetails = {
+                    id: orderId,
+                    amount: amount,
+                    status: "Success",
+                    date: new Date().toLocaleTimeString()
+                };
+
+                // 2. TRIGGER THE CALLBACK
+                callback(orderDetails);
+            }, 2000); 
+        }
+
+        // 3. The callback function that updates the UI
+        function updateUI(details) {
+            const statusEl = document.getElementById('status');
+            statusEl.style.color = "green";
+            statusEl.innerHTML = `
+                ✅ <strong>Order Successful!</strong><br>
+                Order ID: ${details.id}<br>
+                Amount: $${details.amount}<br>
+                Time: ${details.date}
+            `;
+            console.log("Callback executed: Email would be sent now.");
+        }
+
+        // 4. Execution
+        document.getElementById('system-msg').innerText = "Order submitted... please wait.";
+        
+        // Passing 'updateUI' as the callback
+        processOrder(101, 45.99, updateUI);
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Advanced Promise Project</title>
+
+
+
+    <style>
+
+        /* =========================================
+           BODY STYLING
+        ========================================= */
+
+        body{
+            background-color: #111;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 30px;
+        }
+
+
+
+        /* =========================================
+           HEADING
+        ========================================= */
+
+        h1{
+            color: cyan;
+        }
+
+
+
+        /* =========================================
+           BUTTON DESIGN
+        ========================================= */
+
+        button{
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: cyan;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+
+
+        /* =========================================
+           OUTPUT BOX
+        ========================================= */
+
+        #output{
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #222;
+            border-radius: 10px;
+            min-height: 200px;
+        }
+
+
+
+        /* =========================================
+           SUCCESS MESSAGE COLOR
+        ========================================= */
+
+        .success{
+            color: lightgreen;
+        }
+
+
+
+        /* =========================================
+           ERROR MESSAGE COLOR
+        ========================================= */
+
+        .error{
+            color: red;
+        }
+
+
+
+        /* =========================================
+           LOADING MESSAGE COLOR
+        ========================================= */
+
+        .loading{
+            color: orange;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+
+    <!-- =========================================
+         MAIN HEADING
+    ========================================= -->
+
+    <h1>Advanced Promise Example</h1>
+
+
+
+    <!-- =========================================
+         START BUTTON
+    ========================================= -->
+
+    <button id="startBtn">
+
+        Start Login System
+
+    </button>
+
+
+
+    <!-- =========================================
+         OUTPUT AREA
+    ========================================= -->
+
+    <div id="output"></div>
+
+
+
+
+
+    <script>
+
+        // =========================================
+        // GET OUTPUT DIV
+        // =========================================
+
+        const output = document.getElementById("output");
+
+
+
+
+
+        // =========================================
+        // FUNCTION FOR SHOWING MESSAGES
+        // =========================================
+        // This function adds messages inside output div
+        // message = text to display
+        // className = success/error/loading
+        // =========================================
+
+        function showMessage(message, className = "") {
+
+            output.innerHTML += `
+                <p class="${className}">
+                    ${message}
+                </p>
+            `;
+
+        }
+
+
+
+
+
+
+
+        // =========================================
+        // STEP 1 → LOGIN USER
+        // =========================================
+        // This function simulates login system
+        // It returns a Promise
+        //
+        // resolve() → login success
+        // reject()  → login failed
+        // =========================================
+
+        function loginUser(email, password) {
+
+            // RETURN A NEW PROMISE
+            return new Promise((resolve, reject) => {
+
+                // SHOW LOADING MESSAGE
+                showMessage(
+                    "🔐 Checking login credentials...",
+                    "loading"
+                );
+
+
+
+                // SIMULATE SERVER DELAY
+                setTimeout(() => {
+
+                    // CORRECT LOGIN DATA
+                    const correctEmail = "rahim@gmail.com";
+
+                    const correctPassword = "12345";
+
+
+
+                    // CHECK USER INPUT
+                    if (
+                        email === correctEmail &&
+                        password === correctPassword
+                    ) {
+
+                        // SUCCESS
+                        // SEND USER DATA
+                        resolve({
+
+                            userId: 101,
+                            username: "Rahim"
+
+                        });
+
+                    } else {
+
+                        // ERROR
+                        reject(
+                            "❌ Invalid Email or Password"
+                        );
+
+                    }
+
+                }, 2000);
+
+            });
+
+        }
+
+
+
+
+
+
+
+
+
+        // =========================================
+        // STEP 2 → GET USER PROFILE
+        // =========================================
+        // This function fetches user profile
+        //
+        // It also returns Promise
+        // =========================================
+
+        function getUserProfile(userId) {
+
+            return new Promise((resolve, reject) => {
+
+                // SHOW LOADING MESSAGE
+                showMessage(
+                    "👤 Loading user profile...",
+                    "loading"
+                );
+
+
+
+                // SIMULATE DATABASE/API DELAY
+                setTimeout(() => {
+
+                    // CHECK USER ID
+                    if (userId === 101) {
+
+                        // SUCCESS
+                        resolve({
+
+                            id: userId,
+                            country: "Pakistan",
+                            role: "Frontend Developer",
+                            experience: "8 Years"
+
+                        });
+
+                    } else {
+
+                        // ERROR
+                        reject(
+                            "❌ User profile not found"
+                        );
+
+                    }
+
+                }, 1500);
+
+            });
+
+        }
+
+
+
+
+
+
+
+
+
+
+        // =========================================
+        // STEP 3 → GET USER POSTS
+        // =========================================
+        // This function simulates fetching posts
+        // from backend/database
+        // =========================================
+
+        function getUserPosts(userId) {
+
+            return new Promise((resolve, reject) => {
+
+                // SHOW LOADING
+                showMessage(
+                    "📝 Fetching user posts...",
+                    "loading"
+                );
+
+
+
+                // WAIT 1 SECOND
+                setTimeout(() => {
+
+                    // VALID USER CHECK
+                    if (userId === 101) {
+
+                        // SUCCESS
+                        resolve([
+
+                            "JavaScript Promise Tutorial",
+
+                            "React Authentication System",
+
+                            "Node.js API Project"
+
+                        ]);
+
+                    } else {
+
+                        // ERROR
+                        reject(
+                            "❌ Failed to load posts"
+                        );
+
+                    }
+
+                }, 1000);
+
+            });
+
+        }
+
+
+
+
+
+
+
+
+
+
+        // =========================================
+        // STEP 4 → GET USER FRIENDS
+        // =========================================
+        // Simulates friends list API
+        // =========================================
+
+        function getUserFriends(userId) {
+
+            return new Promise((resolve, reject) => {
+
+                // SHOW LOADING MESSAGE
+                showMessage(
+                    "👥 Fetching friends list...",
+                    "loading"
+                );
+
+
+
+                // SERVER DELAY
+                setTimeout(() => {
+
+                    // CHECK USER
+                    if (userId === 101) {
+
+                        // SUCCESS
+                        resolve([
+
+                            "Ali",
+
+                            "Ahmed",
+
+                            "Usman",
+
+                            "Zain"
+
+                        ]);
+
+                    } else {
+
+                        // ERROR
+                        reject(
+                            "❌ Friends not found"
+                        );
+
+                    }
+
+                }, 1200);
+
+            });
+
+        }
+
+
+
+
+
+
+
+
+
+        // =========================================
+        // BUTTON CLICK EVENT
+        // =========================================
+        // When button is clicked:
+        //
+        // 1. Login User
+        // 2. Fetch Profile
+        // 3. Fetch Posts
+        // 4. Fetch Friends
+        // =========================================
+
+        document
+
+            .getElementById("startBtn")
+
+            .addEventListener("click", function () {
+
+                // CLEAR OLD OUTPUT
+                output.innerHTML = "";
+
+
+
+                // =====================================
+                // START PROMISE CHAIN
+                // =====================================
+
+                loginUser(
+                    "rahim@gmail.com",
+                    "12345"
+                )
+
+
+
+                // =====================================
+                // THEN → RUNS AFTER LOGIN SUCCESS
+                // =====================================
+
+                .then((userData) => {
+
+                    // SHOW SUCCESS MESSAGE
+                    showMessage(
+                        `✅ Welcome ${userData.username}`,
+                        "success"
+                    );
+
+
+
+                    // SHOW DATA IN CONSOLE
+                    console.log(userData);
+
+
+
+                    // IMPORTANT:
+                    // RETURN NEXT PROMISE
+                    //
+                    // Without return,
+                    // next .then() will not wait
+                    // =================================
+
+                    return getUserProfile(
+                        userData.userId
+                    );
+
+                })
+
+
+
+
+
+
+
+                // =====================================
+                // THEN → PROFILE SUCCESS
+                // =====================================
+
+                .then((profile) => {
+
+                    // SHOW PROFILE INFO
+                    showMessage(
+                        `🌍 Country: ${profile.country}`,
+                        "success"
+                    );
+
+                    showMessage(
+                        `💻 Role: ${profile.role}`,
+                        "success"
+                    );
+
+                    showMessage(
+                        `📅 Experience: ${profile.experience}`,
+                        "success"
+                    );
+
+
+
+                    // SHOW PROFILE IN CONSOLE
+                    console.log(profile);
+
+
+
+                    // RETURN NEXT PROMISE
+                    return getUserPosts(profile.id);
+
+                })
+
+
+
+
+
+
+
+                // =====================================
+                // THEN → POSTS SUCCESS
+                // =====================================
+
+                .then((posts) => {
+
+                    // TITLE
+                    showMessage(
+                        "📝 User Posts:",
+                        "success"
+                    );
+
+
+
+                    // LOOP THROUGH POSTS ARRAY
+                    posts.forEach((post) => {
+
+                        // SHOW EACH POST
+                        showMessage(
+                            `➡️ ${post}`,
+                            "success"
+                        );
+
+                    });
+
+
+
+                    // RETURN NEXT PROMISE
+                    return getUserFriends(101);
+
+                })
+
+
+
+
+
+
+
+
+                // =====================================
+                // THEN → FRIENDS SUCCESS
+                // =====================================
+
+                .then((friends) => {
+
+                    // TITLE
+                    showMessage(
+                        "👥 Friends List:",
+                        "success"
+                    );
+
+
+
+                    // LOOP THROUGH FRIENDS
+                    friends.forEach((friend) => {
+
+                        showMessage(
+                            `⭐ ${friend}`,
+                            "success"
+                        );
+
+                    });
+
+                })
+
+
+
+
+
+
+
+
+                // =====================================
+                // CATCH → HANDLE ALL ERRORS
+                // =====================================
+                // If ANY promise fails,
+                // control comes here
+                // =====================================
+
+                .catch((error) => {
+
+                    // SHOW ERROR MESSAGE
+                    showMessage(
+                        error,
+                        "error"
+                    );
+
+
+
+                    // SHOW ERROR IN CONSOLE
+                    console.error(error);
+
+                })
+
+
+
+
+
+
+
+
+                // =====================================
+                // FINALLY → ALWAYS RUNS
+                // =====================================
+                // Runs whether:
+                //
+                // ✔ success
+                // ✖ error
+                //
+                // Used for:
+                // - hide loader
+                // - cleanup
+                // - stop spinner
+                // =====================================
+
+                .finally(() => {
+
+                    showMessage(
+                        "🏁 Process Finished",
+                        "loading"
+                    );
+
+                });
+
+            });
+
+    </script>
+
+</body>
+</html>
