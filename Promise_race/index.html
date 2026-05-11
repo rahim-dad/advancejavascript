@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Promise.race Example</title>
+
+
+
+    <style>
+
+        /* =====================================
+           BODY
+        ===================================== */
+
+        body{
+            background-color: #111;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+
+
+        /* =====================================
+           HEADING
+        ===================================== */
+
+        h1{
+            color: cyan;
+        }
+
+
+
+        /* =====================================
+           BUTTON
+        ===================================== */
+
+        button{
+            padding: 12px 20px;
+            background-color: cyan;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+
+
+        /* =====================================
+           OUTPUT BOX
+        ===================================== */
+
+        #output{
+            margin-top: 20px;
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            min-height: 200px;
+        }
+
+
+
+        /* =====================================
+           COLORS
+        ===================================== */
+
+        .success{
+            color: lightgreen;
+        }
+
+        .loading{
+            color: orange;
+        }
+
+        .error{
+            color: red;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+
+    <!-- =====================================
+         HEADING
+    ===================================== -->
+
+    <h1>🏁 Promise.race Example</h1>
+
+
+
+    <!-- =====================================
+         BUTTON
+    ===================================== -->
+
+    <button id="startBtn">
+
+        Start Race
+
+    </button>
+
+
+
+    <!-- =====================================
+         OUTPUT AREA
+    ===================================== -->
+
+    <div id="output"></div>
+
+
+
+
+
+
+
+    <script>
+
+        // =====================================
+        // GET OUTPUT DIV
+        // =====================================
+
+        const output =
+            document.getElementById("output");
+
+
+
+
+
+
+
+
+        // =====================================
+        // FUNCTION FOR SHOWING MESSAGES
+        // =====================================
+
+        function showMessage(message, className=""){
+
+            output.innerHTML += `
+
+                <p class="${className}">
+
+                    ${message}
+
+                </p>
+
+            `;
+
+        }
+
+
+
+
+
+
+
+
+
+        // =====================================
+        // FAST SERVER
+        // =====================================
+        // Completes in 1 second
+        // =====================================
+
+        function fastServer(){
+
+            return new Promise((resolve, reject) => {
+
+                showMessage(
+                    "⚡ Fast Server Started...",
+                    "loading"
+                );
+
+
+
+                setTimeout(() => {
+
+                    resolve(
+                        "⚡ Fast Server Won The Race"
+                    );
+
+                }, 1000);
+
+            });
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        // =====================================
+        // MEDIUM SERVER
+        // =====================================
+        // Completes in 2 seconds
+        // =====================================
+
+        function mediumServer(){
+
+            return new Promise((resolve, reject) => {
+
+                showMessage(
+                    "🚀 Medium Server Started...",
+                    "loading"
+                );
+
+
+
+                setTimeout(() => {
+
+                    resolve(
+                        "🚀 Medium Server Won The Race"
+                    );
+
+                }, 2000);
+
+            });
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        // =====================================
+        // SLOW SERVER
+        // =====================================
+        // Completes in 3 seconds
+        // =====================================
+
+        function slowServer(){
+
+            return new Promise((resolve, reject) => {
+
+                showMessage(
+                    "🐢 Slow Server Started...",
+                    "loading"
+                );
+
+
+
+                setTimeout(() => {
+
+                    resolve(
+                        "🐢 Slow Server Won The Race"
+                    );
+
+                }, 3000);
+
+            });
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        // =====================================
+        // MAIN FUNCTION
+        // =====================================
+        // async allows await usage
+        // =====================================
+
+        async function startRace(){
+
+
+
+            // CLEAR OLD OUTPUT
+            output.innerHTML = "";
+
+
+
+            try{
+
+                // =================================
+                // Promise.race()
+                // First completed promise wins
+                // =================================
+
+                const winner =
+                    await Promise.race([
+
+                        fastServer(),
+
+                        mediumServer(),
+
+                        slowServer()
+
+                    ]);
+
+
+
+                // =================================
+                // SHOW WINNER
+                // =================================
+
+                showMessage(
+                    "🏆 Winner:",
+                    "success"
+                );
+
+
+
+                showMessage(
+                    winner,
+                    "success"
+                );
+
+
+
+            }catch(error){
+
+                // =================================
+                // HANDLE ERROR
+                // =================================
+
+                showMessage(
+                    error,
+                    "error"
+                );
+
+
+
+                console.error(error);
+
+            }finally{
+
+                // =================================
+                // ALWAYS RUNS
+                // =================================
+
+                showMessage(
+                    "🏁 Race Finished",
+                    "loading"
+                );
+
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+        // =====================================
+        // BUTTON CLICK EVENT
+        // =====================================
+
+        document
+
+            .getElementById("startBtn")
+
+            .addEventListener(
+                "click",
+                startRace
+            );
+
+    </script>
+
+</body>
+
+</html>

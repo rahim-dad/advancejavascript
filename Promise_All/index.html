@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Promise.all Example</title>
+
+
+
+    <style>
+
+        /* =====================================
+           BODY
+        ===================================== */
+
+        body{
+            background-color: #111;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+
+
+        /* =====================================
+           HEADING
+        ===================================== */
+
+        h1{
+            color: cyan;
+        }
+
+
+
+        /* =====================================
+           BUTTON
+        ===================================== */
+
+        button{
+            padding: 12px 20px;
+            background-color: cyan;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+
+
+        /* =====================================
+           OUTPUT BOX
+        ===================================== */
+
+        #output{
+            margin-top: 20px;
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            min-height: 200px;
+        }
+
+
+
+        /* =====================================
+           COLORS
+        ===================================== */
+
+        .success{
+            color: lightgreen;
+        }
+
+        .loading{
+            color: orange;
+        }
+
+        .error{
+            color: red;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+
+    <!-- =====================================
+         HEADING
+    ===================================== -->
+
+    <h1>🚀 Promise.all Example</h1>
+
+
+
+    <!-- =====================================
+         BUTTON
+    ===================================== -->
+
+    <button id="loadBtn">
+
+        Load Data
+
+    </button>
+
+
+
+    <!-- =====================================
+         OUTPUT AREA
+    ===================================== -->
+
+    <div id="output"></div>
+
+
+
+
+
+
+
+    <script>
+
+        // =====================================
+        // GET OUTPUT DIV
+        // =====================================
+
+        const output =
+            document.getElementById("output");
+
+
+
+
+
+
+
+
+        // =====================================
+        // FUNCTION FOR SHOWING DATA
+        // =====================================
+
+        function showMessage(message, className=""){
+
+            output.innerHTML += `
+
+                <p class="${className}">
+
+                    ${message}
+
+                </p>
+
+            `;
+
+        }
+
+
+
+
+
+
+
+
+
+        // =====================================
+        // FETCH USER DATA
+        // =====================================
+        // Simulates API request
+        // =====================================
+
+        function getUser(){
+
+            return new Promise((resolve, reject) => {
+
+                // SHOW LOADING MESSAGE
+                showMessage(
+                    "👤 Loading User...",
+                    "loading"
+                );
+
+
+
+                // DELAY 2 SECONDS
+                setTimeout(() => {
+
+                    // SUCCESS
+                    resolve(
+                        "✅ User Loaded"
+                    );
+
+                }, 2000);
+
+            });
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        // =====================================
+        // FETCH POSTS
+        // =====================================
+
+        function getPosts(){
+
+            return new Promise((resolve, reject) => {
+
+                showMessage(
+                    "📝 Loading Posts...",
+                    "loading"
+                );
+
+
+
+                setTimeout(() => {
+
+                    // SUCCESS
+                    resolve(
+                        "✅ Posts Loaded"
+                    );
+
+
+
+                    // TO TEST ERROR:
+                    // reject("❌ Posts Failed");
+
+                }, 1500);
+
+            });
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        // =====================================
+        // FETCH COMMENTS
+        // =====================================
+
+        function getComments(){
+
+            return new Promise((resolve, reject) => {
+
+                showMessage(
+                    "💬 Loading Comments...",
+                    "loading"
+                );
+
+
+
+                setTimeout(() => {
+
+                    resolve(
+                        "✅ Comments Loaded"
+                    );
+
+                }, 1000);
+
+            });
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        // =====================================
+        // MAIN FUNCTION
+        // =====================================
+        // async allows await usage
+        // =====================================
+
+        async function loadData(){
+
+
+
+            // CLEAR OLD OUTPUT
+            output.innerHTML = "";
+
+
+
+            try{
+
+                // =================================
+                // Promise.all()
+                // Runs ALL promises together
+                // =================================
+
+                const results =
+                    await Promise.all([
+
+                        getUser(),
+
+                        getPosts(),
+
+                        getComments()
+
+                    ]);
+
+
+
+                // =================================
+                // SHOW RESULTS
+                // =================================
+
+                showMessage(
+                    "🎉 All Data Loaded Successfully",
+                    "success"
+                );
+
+
+
+                // LOOP THROUGH RESULTS
+                results.forEach((item) => {
+
+                    showMessage(
+                        item,
+                        "success"
+                    );
+
+                });
+
+
+
+            }catch(error){
+
+                // =================================
+                // HANDLE ERRORS
+                // =================================
+
+                showMessage(
+                    error,
+                    "error"
+                );
+
+
+
+                console.error(error);
+
+            }finally{
+
+                // =================================
+                // ALWAYS RUNS
+                // =================================
+
+                showMessage(
+                    "🏁 Process Finished",
+                    "loading"
+                );
+
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+        // =====================================
+        // BUTTON CLICK EVENT
+        // =====================================
+
+        document
+
+            .getElementById("loadBtn")
+
+            .addEventListener(
+                "click",
+                loadData
+            );
+
+    </script>
+
+</body>
+
+</html>

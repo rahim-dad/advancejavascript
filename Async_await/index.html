@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Advanced Async Await Project</title>
+
+
+
+    <style>
+
+        /* =========================================
+           BODY
+        ========================================= */
+
+        body{
+            background-color: #0f172a;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+
+
+        /* =========================================
+           MAIN HEADING
+        ========================================= */
+
+        h1{
+            color: cyan;
+        }
+
+
+
+        /* =========================================
+           BUTTON
+        ========================================= */
+
+        button{
+            padding: 12px 20px;
+            background-color: cyan;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+
+
+        /* =========================================
+           DASHBOARD GRID
+        ========================================= */
+
+        #dashboard{
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+            gap: 20px;
+        }
+
+
+
+        /* =========================================
+           CARD DESIGN
+        ========================================= */
+
+        .card{
+            background-color: #1e293b;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+
+
+        /* =========================================
+           COLORS
+        ========================================= */
+
+        .success{
+            color: lightgreen;
+        }
+
+        .error{
+            color: red;
+        }
+
+        .loading{
+            color: orange;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+
+    <!-- =========================================
+         HEADING
+    ========================================= -->
+
+    <h1>🚀 Advanced Async/Await Dashboard</h1>
+
+
+
+    <!-- =========================================
+         BUTTON
+    ========================================= -->
+
+    <button id="startBtn">
+
+        Load Dashboard
+
+    </button>
+
+
+
+    <!-- =========================================
+         DASHBOARD AREA
+    ========================================= -->
+
+    <div id="dashboard"></div>
+
+
+
+
+
+
+
+    <script>
+
+        // =========================================
+        // GET DASHBOARD DIV
+        // =========================================
+
+        const dashboard =
+            document.getElementById("dashboard");
+
+
+
+
+
+
+
+
+        // =========================================
+        // FUNCTION → CREATE CARD
+        // =========================================
+        // Reusable function for creating cards
+        // =========================================
+
+        function createCard(title, content){
+
+            return `
+
+                <div class="card">
+
+                    <h2>${title}</h2>
+
+                    ${content}
+
+                </div>
+
+            `;
+
+        }
+
+
+
+
+
+
+
+
+
+        // =========================================
+        // LOGIN USER FUNCTION
+        // =========================================
+        // Simulates login API request
+        // =========================================
+
+        function loginUser(){
+
+            return new Promise((resolve, reject) => {
+
+                console.log("Checking Login...");
+
+
+
+                // SERVER DELAY
+                setTimeout(() => {
+
+                    // LOGIN STATUS
+                    const success = true;
+
+
+
+                    // CHECK LOGIN
+                    if(success){
+
+                        // SUCCESS
+                        resolve({
+
+                            id: 101,
+                            username: "Rahim",
+                            role: "Frontend Developer"
+
+                        });
+
+                    }else{
+
+                        // ERROR
+                        reject(
+                            "❌ Login Failed"
+                        );
+
+                    }
+
+                }, 2000);
+
+            });
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // =========================================
+        // FETCH USER PROJECTS
+        // =========================================
+        // Simulates API request
+        // =========================================
+
+        function getProjects(userId){
+
+            return new Promise((resolve, reject) => {
+
+                console.log("Loading Projects...");
+
+
+
+                setTimeout(() => {
+
+                    // VALID USER CHECK
+                    if(userId === 101){
+
+                        resolve([
+
+                            "Netflix Clone",
+
+                            "E-Commerce Website",
+
+                            "AI Chat Application",
+
+                            "Weather App"
+
+                        ]);
+
+                    }else{
+
+                        reject(
+                            "❌ Projects Not Found"
+                        );
+
+                    }
+
+                }, 1500);
+
+            });
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        // =========================================
+        // FETCH USER SKILLS
+        // =========================================
+
+        function getSkills(userId){
+
+            return new Promise((resolve, reject) => {
+
+                console.log("Loading Skills...");
+
+
+
+                setTimeout(() => {
+
+                    if(userId === 101){
+
+                        resolve([
+
+                            "JavaScript",
+
+                            "React",
+
+                            "Node.js",
+
+                            "MongoDB",
+
+                            "GitHub"
+
+                        ]);
+
+                    }else{
+
+                        reject(
+                            "❌ Skills Not Found"
+                        );
+
+                    }
+
+                }, 1200);
+
+            });
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        // =========================================
+        // FETCH USER NOTIFICATIONS
+        // =========================================
+
+        function getNotifications(userId){
+
+            return new Promise((resolve, reject) => {
+
+                console.log("Loading Notifications...");
+
+
+
+                setTimeout(() => {
+
+                    if(userId === 101){
+
+                        resolve([
+
+                            "🔔 New Message Received",
+
+                            "🔔 GitHub Repository Updated",
+
+                            "🔔 Project Deadline Tomorrow"
+
+                        ]);
+
+                    }else{
+
+                        reject(
+                            "❌ Notifications Not Found"
+                        );
+
+                    }
+
+                }, 1000);
+
+            });
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // =========================================
+        // MAIN DASHBOARD FUNCTION
+        // =========================================
+        // async keyword allows await
+        // =========================================
+
+        async function loadDashboard(){
+
+
+
+            // CLEAR OLD DATA
+            dashboard.innerHTML = "";
+
+
+
+            // SHOW LOADING SCREEN
+            dashboard.innerHTML = `
+
+                <div class="card">
+
+                    <h2 class="loading">
+
+                        ⏳ Loading Dashboard...
+
+                    </h2>
+
+                </div>
+
+            `;
+
+
+
+            // TRY CATCH FOR ERROR HANDLING
+            try{
+
+
+
+                // =================================
+                // STEP 1 → LOGIN USER
+                // =================================
+                // await waits until Promise finishes
+                // =================================
+
+                const user =
+                    await loginUser();
+
+
+
+                console.log(user);
+
+
+
+
+
+
+
+
+                // =================================
+                // STEP 2 → LOAD MULTIPLE APIs
+                // =================================
+                // Promise.all() runs all APIs together
+                // Faster performance
+                // =================================
+
+                const [
+
+                    projects,
+
+                    skills,
+
+                    notifications
+
+                ] = await Promise.all([
+
+                    getProjects(user.id),
+
+                    getSkills(user.id),
+
+                    getNotifications(user.id)
+
+                ]);
+
+
+
+                console.log(projects);
+
+                console.log(skills);
+
+                console.log(notifications);
+
+
+
+
+
+
+
+
+                // =================================
+                // STEP 3 → SHOW DATA ON SCREEN
+                // =================================
+
+                dashboard.innerHTML = `
+
+
+
+                    <!-- USER CARD -->
+
+                    ${createCard(
+
+                        "👤 User Profile",
+
+                        `
+
+                        <p>
+                            <strong>Name:</strong>
+                            ${user.username}
+                        </p>
+
+                        <p>
+                            <strong>Role:</strong>
+                            ${user.role}
+                        </p>
+
+                        <p>
+                            <strong>ID:</strong>
+                            ${user.id}
+                        </p>
+
+                        `
+                    )}
+
+
+
+
+                    <!-- PROJECTS CARD -->
+
+                    ${createCard(
+
+                        "💻 Projects",
+
+                        projects.map((project) => {
+
+                            return `
+
+                                <p class="success">
+
+                                    ✅ ${project}
+
+                                </p>
+
+                            `;
+
+                        }).join("")
+                    )}
+
+
+
+
+                    <!-- SKILLS CARD -->
+
+                    ${createCard(
+
+                        "🚀 Skills",
+
+                        skills.map((skill) => {
+
+                            return `
+
+                                <p>
+
+                                    ⭐ ${skill}
+
+                                </p>
+
+                            `;
+
+                        }).join("")
+                    )}
+
+
+
+
+                    <!-- NOTIFICATIONS CARD -->
+
+                    ${createCard(
+
+                        "🔔 Notifications",
+
+                        notifications.map((item) => {
+
+                            return `
+
+                                <p class="loading">
+
+                                    ${item}
+
+                                </p>
+
+                            `;
+
+                        }).join("")
+                    )}
+
+                `;
+
+
+
+
+
+            }catch(error){
+
+                // =================================
+                // HANDLE ALL ERRORS
+                // =================================
+
+                dashboard.innerHTML = `
+
+                    <div class="card">
+
+                        <h2 class="error">
+
+                            ${error}
+
+                        </h2>
+
+                    </div>
+
+                `;
+
+
+
+                console.error(error);
+
+
+
+
+
+            }finally{
+
+                // =================================
+                // ALWAYS RUNS
+                // =================================
+
+                console.log(
+                    "Dashboard Process Finished"
+                );
+
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        // =========================================
+        // BUTTON CLICK EVENT
+        // =========================================
+
+        document
+
+            .getElementById("startBtn")
+
+            .addEventListener(
+                "click",
+                loadDashboard
+            );
+
+    </script>
+
+</body>
+
+</html>
